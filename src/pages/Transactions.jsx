@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
+import TransactionTable from "../components/transactions/TransactionTable";
 
 const Transactions = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,7 +17,7 @@ const Transactions = () => {
         />
 
         <div style={{ padding: "20px" }}>
-          <h2>Transactions</h2>
+          <TransactionTable />
         </div>
       </div>
     </>

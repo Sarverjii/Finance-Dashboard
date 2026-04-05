@@ -1,0 +1,28 @@
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* TOP GRID */
+.gridTop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* BOTTOM GRID */
+.gridBottom {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .gridTop,
+  .gridBottom {
+    grid-template-columns: 1fr;
+  }
+}

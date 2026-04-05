@@ -1,0 +1,60 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.title {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+/* LIST */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ITEM */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+/* LEFT */
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.category {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.date {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* RIGHT AMOUNT */
+.income {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.expense {
+  color: #ef4444;
+  font-weight: 600;
+}
