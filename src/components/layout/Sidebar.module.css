@@ -1,0 +1,199 @@
+/* ================= */
+/* SIDEBAR BASE */
+/* ================= */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  height: 100vh;
+  width: 70px;
+
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-color);
+
+  display: flex;
+  flex-direction: column;
+
+  transition: width 0.3s ease;
+  overflow: hidden;
+  z-index: 100;
+}
+
+/* ================= */
+/* DESKTOP HOVER */
+/* ================= */
+@media (min-width: 769px) {
+  .sidebar:hover {
+    width: 220px;
+  }
+
+  .sidebar:hover .label,
+  .sidebar:hover .logoText {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ================= */
+/* LOGO */
+/* ================= */
+.logo {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+
+  overflow: hidden; /* prevent overflow issues */
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+
+  min-width: 36px;
+  min-height: 36px;
+
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  font-weight: bold;
+
+  flex-shrink: 0; /* 🔥 prevents shrinking */
+}
+
+.logoText {
+  font-weight: 600;
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.25s ease;
+
+  pointer-events: none;
+}
+
+/* ================= */
+/* MENU */
+/* ================= */
+.menu {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 100%;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 10px 16px;
+  margin: 4px 8px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menuItem:hover {
+  background: var(--bg-primary);
+}
+
+/* ICON */
+.icon {
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* LABEL */
+.label {
+  opacity: 0;
+  white-space: nowrap;
+
+  transform: translateX(-8px);
+  transition: all 0.25s ease;
+}
+
+/* ================= */
+/* BOTTOM SETTINGS */
+/* ================= */
+.bottom {
+  padding: 10px 0;
+}
+
+/* ================= */
+/* OVERLAY */
+/* ================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  z-index: 90;
+
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ================= */
+/* MOBILE */
+/* ================= */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 240px;
+
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* ALWAYS SHOW TEXT ON MOBILE */
+  .label,
+  .logoText {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+
+/* ================= */
+/* ACTIVE ITEM */
+/* ================= */
+.active {
+  background: var(--bg-primary);
+  border-left: 3px solid #7c3aed;
+}
+
+/* ================= */
+/* DISABLE HOVER BUG */
+/* ================= */
+.noHover {
+  pointer-events: none;
+}
