@@ -177,3 +177,36 @@ input[type="number"] {
   background: rgba(124, 58, 237, 0.3);
   border-radius: 10px;
 }
+.budgetRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-primary);
+}
+
+.catName {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.budgetInputs {
+  display: flex;
+  gap: 6px;
+}
+
+.budgetInputs input {
+  width: 60px;
+  padding: 6px;
+
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+
+  background: var(--bg-card);
+  color: var(--text-primary);
+
+  text-align: center;
+  font-size: 12px;
+}

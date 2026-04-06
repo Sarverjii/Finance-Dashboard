@@ -9,7 +9,10 @@ import {
   removeCategory,
 } from "../store/slices/categorySlice";
 
-import { setBudget } from "../store/slices/budgetSlice";
+import {
+  setBudget,
+  createCategoryBudget, // ✅ FIXED IMPORT
+} from "../store/slices/budgetSlice";
 
 import styles from "../styles/Settings.module.css";
 
@@ -32,18 +35,10 @@ const Settings = () => {
     const name = newCategory.trim();
 
     dispatch(addCategory(name));
-
-    // 🔥 auto create budget
-    dispatch(
-      setBudget({
-        category: name,
-        amount: 0,
-      })
-    );
+    dispatch(createCategoryBudget(name)); // ✅ FIXED
 
     setNewCategory("");
 
-    // 🔥 smooth scroll
     setTimeout(() => {
       categoryListRef.current?.scrollTo({
         top: categoryListRef.current.scrollHeight,
@@ -57,16 +52,17 @@ const Settings = () => {
     }, 100);
   };
 
-  /* ================= REMOVE CATEGORY ================= */
+  /* ================= REMOVE ================= */
   const handleDelete = (category) => {
     dispatch(removeCategory(category));
   };
 
-  /* ================= UPDATE BUDGET ================= */
-  const handleBudgetChange = (category, value) => {
+  /* ================= UPDATE ================= */
+  const handleBudgetChange = (category, type, value) => {
     dispatch(
       setBudget({
         category,
+        type,
         amount: Number(value),
       })
     );
@@ -107,31 +103,49 @@ const Settings = () => {
                 {categories.map((cat, index) => (
                   <div key={index} className={styles.listItem}>
                     <span>{cat}</span>
-                    <button onClick={() => handleDelete(cat)}>
-                      ✕
-                    </button>
+                    <button onClick={() => handleDelete(cat)}>✕</button>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* ================= BUDGETS ================= */}
-            <div className={styles.card}>
+            <div className={styles.card}> {/* ✅ FIXED CARD WRAPPER */}
               <h3 className={styles.cardTitle}>Budgets</h3>
 
               <div className={styles.list} ref={budgetListRef}>
                 {categories.map((cat, index) => (
-                  <div key={index} className={styles.listItem}>
-                    <span>{cat}</span>
+                  <div key={index} className={styles.budgetRow}>
+                    <span className={styles.catName}>{cat}</span>
 
-                    <input
-                      type="number"
-                      placeholder="₹"
-                      value={budgets[cat] || ""}
-                      onChange={(e) =>
-                        handleBudgetChange(cat, e.target.value)
-                      }
-                    />
+                    <div className={styles.budgetInputs}>
+                      <input
+                        type="number"
+                        placeholder="W"
+                        value={budgets[cat]?.weekly || ""}
+                        onChange={(e) =>
+                          handleBudgetChange(cat, "weekly", e.target.value)
+                        }
+                      />
+
+                      <input
+                        type="number"
+                        placeholder="M"
+                        value={budgets[cat]?.monthly || ""}
+                        onChange={(e) =>
+                          handleBudgetChange(cat, "monthly", e.target.value)
+                        }
+                      />
+
+                      <input
+                        type="number"
+                        placeholder="Y"
+                        value={budgets[cat]?.yearly || ""}
+                        onChange={(e) =>
+                          handleBudgetChange(cat, "yearly", e.target.value)
+                        }
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

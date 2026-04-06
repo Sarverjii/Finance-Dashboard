@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+
 import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 
-import { useSelector } from "react-redux";
 import SummaryCard from "../components/cards/SummaryCard";
-
 import CashflowChart from "../components/charts/CashflowChart";
 import CategoryChart from "../components/charts/CategoryChart";
 
@@ -17,14 +17,50 @@ import FinancialInsights from "../components/insights/FinancialInsights";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [filter, setFilter] = useState("monthly");
 
   const transactions = useSelector((state) => state.finance.transactions);
 
-  const income = transactions
+  if (!transactions.length) return null;
+
+  /* ================= SORT ================= */
+  const sorted = [...transactions].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+  const latestDate = new Date(sorted[sorted.length - 1].date);
+
+  /* ================= RANGE ================= */
+  let startDate = new Date(latestDate);
+
+  if (filter === "weekly") {
+    startDate.setDate(latestDate.getDate() - 6);
+  }
+
+  if (filter === "monthly") {
+    startDate = new Date(
+      latestDate.getFullYear(),
+      latestDate.getMonth(),
+      1
+    );
+  }
+
+  if (filter === "yearly") {
+    startDate = new Date(latestDate.getFullYear(), 0, 1);
+  }
+
+  /* ================= FILTER ================= */
+  const filtered = sorted.filter((tx) => {
+    const d = new Date(tx.date);
+    return d >= startDate && d <= latestDate;
+  });
+
+  /* ================= CALCULATIONS ================= */
+  const income = filtered
     .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const expense = transactions
+  const expense = filtered
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
@@ -44,7 +80,7 @@ const Dashboard = () => {
         />
 
         <div style={{ padding: "20px" }}>
-          
+
           {/* ================= SUMMARY CARDS ================= */}
           <div
             style={{
@@ -55,9 +91,24 @@ const Dashboard = () => {
               marginBottom: "20px",
             }}
           >
-            <SummaryCard title="Total Balance" amount={balance} type="balance" />
-            <SummaryCard title="Income" amount={income} type="income" />
-            <SummaryCard title="Expenses" amount={expense} type="expense" />
+            <SummaryCard
+              title="Total Balance"
+              amount={balance}
+              type="balance"
+              filter={filter}
+            />
+            <SummaryCard
+              title="Income"
+              amount={income}
+              type="income"
+              filter={filter}
+            />
+            <SummaryCard
+              title="Expenses"
+              amount={expense}
+              type="expense"
+              filter={filter}
+            />
           </div>
 
           {/* ================= CHARTS ================= */}
@@ -68,7 +119,6 @@ const Dashboard = () => {
               gap: "20px",
             }}
           >
-            
             {/* CASHFLOW */}
             <div
               style={{
@@ -78,14 +128,7 @@ const Dashboard = () => {
                 border: "1px solid var(--border-color)",
               }}
             >
-              <h3 style={{ marginBottom: "10px" }}>
-                Cashflow Overview
-              </h3>
-              <p style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "10px" }}>
-                Income vs Expenses over time
-              </p>
-
-              <CashflowChart />
+              <CashflowChart filter={filter} />
             </div>
 
             {/* CATEGORY */}
@@ -97,39 +140,38 @@ const Dashboard = () => {
                 border: "1px solid var(--border-color)",
               }}
             >
-              <h3 style={{ marginBottom: "10px" }}>
-                Spending Breakdown
-              </h3>
-              <p style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "10px" }}>
-                Expenses by category
-              </p>
-
-              <CategoryChart />
+              <CategoryChart filter={filter} />
             </div>
           </div>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "16px",
-            marginTop: "20px"
-          }}>
-            <BudgetProgress />
-            <RecentTransactions />
-            <TopTransactions/>
+          {/* ================= WIDGETS ================= */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "16px",
+              marginTop: "20px",
+            }}
+          >
+            <BudgetProgress filter={filter} />
+            <RecentTransactions filter={filter} />
+            <TopTransactions filter={filter} />
           </div>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "16px",
-            marginTop: "20px"
-          }}>
-            
-            <TransactionTable limit={6} />
-            <FinancialInsights />
+          {/* ================= TABLE + INSIGHTS ================= */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "16px",
+              marginTop: "20px",
+            }}
+          >
+            <TransactionTable limit={6} filter={filter} />
+            <FinancialInsights filter={filter} />
           </div>
-
 
         </div>
       </div>

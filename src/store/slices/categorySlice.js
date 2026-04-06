@@ -21,6 +21,12 @@ const defaultCategories = [
   "Shopping",
   "Entertainment",
   "Utilities",
+  "Groceries",
+  "Rent",
+  "Health",
+  "Transport",
+  "Subscriptions",
+  "Education"
 ];
 
 /* ================= SLICE ================= */

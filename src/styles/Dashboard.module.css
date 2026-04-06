@@ -1,0 +1,78 @@
+/* ================= */
+/* CONTAINER */
+/* ================= */
+.container {
+  padding: 20px;
+}
+
+/* ================= */
+/* SUMMARY */
+/* ================= */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* ================= */
+/* CHART GRID */
+/* ================= */
+.chartGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .chartGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= */
+/* WIDGET GRID */
+/* ================= */
+.widgetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* ================= */
+/* BOTTOM GRID */
+/* ================= */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* ================= */
+/* CARD */
+/* ================= */
+.card {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+
+  /* 🔥 VERY IMPORTANT FOR CHART FIX */
+  height: 100%;
+  min-height: 320px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= */
+/* MOBILE */
+/* ================= */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+}

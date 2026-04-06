@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import defaultTransactions from "../../data/defaultTransactions";
 
 /* ========================= */
 /* LOAD FROM LOCAL STORAGE */
@@ -24,36 +25,6 @@ const saveToLocalStorage = (transactions) => {
 };
 
 /* ========================= */
-/* DEFAULT DATA */
-/* ========================= */
-const defaultTransactions = [
-  {
-    id: 1,
-    date: "2026-04-01",
-    category: "Salary",
-    description: "Monthly salary",
-    type: "income",
-    amount: 5000,
-  },
-  {
-    id: 2,
-    date: "2026-04-02",
-    category: "Food",
-    description: "Lunch at cafe",
-    type: "expense",
-    amount: 200,
-  },
-  {
-    id: 3,
-    date: "2026-04-03",
-    category: "Shopping",
-    description: "Clothes purchase",
-    type: "expense",
-    amount: 800,
-  },
-];
-
-/* ========================= */
 /* INITIAL STATE */
 /* ========================= */
 const initialState = {
@@ -67,16 +38,14 @@ const financeSlice = createSlice({
   name: "finance",
   initialState,
   reducers: {
-    /* ADD TRANSACTION */
     addTransaction: (state, action) => {
       state.transactions.unshift({
         ...action.payload,
-        id: Date.now(), // ensure unique id
+        id: Date.now(),
       });
       saveToLocalStorage(state.transactions);
     },
 
-    /* UPDATE TRANSACTION */
     updateTransaction: (state, action) => {
       const index = state.transactions.findIndex(
         (t) => t.id === action.payload.id
@@ -88,7 +57,6 @@ const financeSlice = createSlice({
       }
     },
 
-    /* DELETE TRANSACTION */
     deleteTransaction: (state, action) => {
       state.transactions = state.transactions.filter(
         (t) => t.id !== action.payload
@@ -98,9 +66,6 @@ const financeSlice = createSlice({
   },
 });
 
-/* ========================= */
-/* EXPORTS */
-/* ========================= */
 export const {
   addTransaction,
   updateTransaction,
